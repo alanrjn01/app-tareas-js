@@ -24,21 +24,21 @@ const insertarTareaHTML= () =>{
     arrayTareas===null ? arrayTareas=[] : arrayTareas.forEach((elemento)=>{
         if(elemento.estado){
             contenedorTareasUI.innerHTML+=`
-            <div class="tarea">
+            <div class="tarea mt-2 alert alert-warning">
                 <b>${elemento.nombreTarea}</b>
-                <i>${elemento.estado}</i>
-                <button id="botonEliminar" type="submit">Eliminar</button>
+                <i>| estado: ${elemento.estado}</i>
+                <button class="btn btn-danger" id="botonEliminar" type="submit">Eliminar</button>
             </div>
         `
         }else{
             contenedorTareasUI.innerHTML+=`
-            <div class="tarea">
+            <div class="tarea mt-2 alert alert-warning">
                 <b>${elemento.nombreTarea}</b>
-                <i>${elemento.estado}</i>
-                <button id="botonEliminar" type="submit">Eliminar</button>
-                <button id="botonEditar" type="submit">Editar nombre</button>
-                <button id="botonMarcarCompletado" type="submit">Completar</button>
-                <button id="seleccionarTarea" type="submit">Seleccionar</button>
+                <i>| estado: ${elemento.estado}</i>
+                <button class="btn btn-danger" id="botonEliminar" type="submit">Eliminar</button>
+                <button class="btn btn-danger" id="botonEditar" type="submit">Editar nombre</button>
+                <button class="btn btn-danger" id="botonMarcarCompletado" type="submit">Completar</button>
+                <button class="btn btn-danger" id="seleccionarTarea" type="submit">Seleccionar</button>
             </div>
             `
         }
@@ -52,12 +52,12 @@ const insertarCronometroHTML = (minutos,segundos) =>{
     document.getElementById('cronometro').innerHTML=''
     if(segundos>=0 && segundos<10){
         document.getElementById('cronometro').innerHTML=`
-        <h2 class="tiempo" id="tiempo">${minutos}:0${segundos}</h2>
+        <h2 class="tiempo alert alert-primary mt-2" id="tiempo">${minutos}:0${segundos}</h2>
     `
     }
     else{
         document.getElementById('cronometro').innerHTML=`
-        <h2 class="tiempo" id="tiempo">${minutos}:${segundos}</h2>
+        <h2 class="tiempo alert alert-primary mt-2" id="tiempo">${minutos}:${segundos}</h2>
     `
     }
 }
@@ -102,24 +102,26 @@ const editarTarea = (tareaAEditar) => {
 //e inserto el cronometro, inserto botones con distintas funcionalidades
 //y declaro los eventlisteners de esos botones
 const seleccionarTarea = (tareaAComenzar) =>{
+    
     minutos=25
     segundos=0
-    console.log("hola")
     insertarCronometroHTML(25,0)
+    document.getElementById('containerTareaEnCurso').innerHTML=''
+
     document.getElementById('containerTareaEnCurso').innerHTML += `
-        <div class="tareaEnCurso" id="tareaEnCurso"><b>${tareaAComenzar}</b></div>
+        <div class="tareaEnCurso alert alert-success" id="tareaEnCurso"><b>${tareaAComenzar}</b></div>
     `
     document.getElementById('containerTareaEnCurso').innerHTML+=`
-        <button id='botonComenzar' type='submit'>Comenzar</button>
+        <button class="btn btn-primary" id='botonComenzar' type='submit'>Comenzar</button>
     `
     document.getElementById('containerTareaEnCurso').innerHTML+=`
-        <button id='subirMinuto' type='submit'>+</button>
+        <button class="btn btn-primary" id='subirMinuto' type='submit'>+</button>
     `
     document.getElementById('containerTareaEnCurso').innerHTML+=`
-        <button id='bajarMinuto' type='submit'>-</button>
+        <button class="btn btn-primary" id='bajarMinuto' type='submit'>-</button>
     `
     document.getElementById('containerTareaEnCurso').innerHTML+=`
-        <button id='botonCancelar' type='submit'>Cancelar</button>
+        <button class="btn btn-primary" id='botonCancelar' type='submit'>Cancelar</button>
     `
     
     //el boton cancelar remueve del html todos los elementos que especifican a la tarea
@@ -209,13 +211,25 @@ const cronometro = (minutos,segundos,tarea)=>{
 //cargar al iniciar la página:
 document.addEventListener('DOMContentLoaded',insertarTareaHTML)
 
-//boton submit del formulario si es el boton de añadir agrega un objeto tarea al array 
+//boton submit del formulario si es el boton de añadir ( i 'comprobarDuplicado' es falso o
+// el array esta vacio) agrega un objeto tarea al array 
 //si es el boton de actualizar accedo a la posición del elemento a actualizar y modifico su propiedad
+//para añadir una tarea compruebo que no este duplicada en el arrayTareas
+
 formUI.addEventListener('submit',(e)=>{
     e.preventDefault()
-    console.log(e)
+    comprobarDuplicado=false
+    if(arrayTareas.length!=0){
+        arrayTareas.forEach((tarea)=>{
+            if(tarea.nombreTarea===document.getElementById('tareaInput').value){
+                comprobarDuplicado=true
+            }
+        })
+    }
     if (e.composedPath()[0][1].innerHTML === "Añadir"){
-        document.getElementById('tareaInput').value != "" ? arrayTareas.push(new Tarea(document.getElementById('tareaInput').value)) : null
+        if(arrayTareas.length===0 || comprobarDuplicado==false){
+            document.getElementById('tareaInput').value != "" ? arrayTareas.push(new Tarea(document.getElementById('tareaInput').value)) : null
+        }
     }
     else if(e.composedPath()[0][1].innerHTML === "Actualizar"){
         document.getElementById('tareaInput').value != "" ? arrayTareas[indiceTareaActualizar].nombreTarea=document.getElementById('tareaInput').value : null

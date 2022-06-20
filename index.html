@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <title>App tareas</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container mt-4">
         <h3>Tareas</h3>
         <div class="containerCronometro" id="cronometro">
             <!-- cronometro -->
@@ -14,9 +15,9 @@
         <div class="containerTareaEnCurso" id="containerTareaEnCurso">
             <!-- TareaEnCurso -->
         </div>
-        <form id="formulario">
-            <input type="text" id="tareaInput">
-            <button type="submit" id="botonAniadir">Añadir</button>
+        <form class="formulario mt-3" id="formulario">
+            <input type="text" id="tareaInput" placeholder="nueva tarea">
+            <button type="submit" id="botonAniadir" class="btn btn-success">Añadir</button>
         </form>
         <div id="listaTareas">
             <!-- tarea -->
