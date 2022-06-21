@@ -11,12 +11,28 @@ class Tarea{
     constructor(nombreTarea){
         this.nombreTarea=nombreTarea
         this.estado=false
+        this.fecha = new Date()
     }
 }
 
 class Interfaz{
     //esta funcion se ejecutara al principio para insertar el html correspondiente 
     //traido del localstorage
+
+    insertarAlerta(tarea,mensaje){
+        document.getElementById('container-alerta').innerHTML=''
+        document.getElementById('container-alerta').innerHTML+=`
+            <div class="alert alert-info">
+                <span><b>${tarea}</b>${mensaje}</span>
+            </div>
+            `
+        setTimeout(()=>{
+            document.getElementById('container-alerta').innerHTML=''
+        },3000)
+    }
+
+
+
     insertarTareaHTML(){
         contenedorTareasUI.innerHTML = ''
         arrayTareas = JSON.parse(localStorage.getItem('tareas'))
@@ -71,6 +87,7 @@ class Interfaz{
             return tarea.nombreTarea === tareaSeleccionada
         })
         arrayTareas.splice(indiceABorrar,1)
+        this.insertarAlerta(tareaSeleccionada," eliminada satisfactoriamente")
         this.actualizarLocalStorage()
     }
 
@@ -248,7 +265,10 @@ formUI.addEventListener('submit',(e)=>{
                 tareaIngresadaPorElUsuario != "" ? arrayTareas.push(new Tarea(tareaIngresadaPorElUsuario)) : null
             }
             else if(botonClickeado === "Actualizar"){
-                tareaIngresadaPorElUsuario != "" ? arrayTareas[indiceTareaActualizar].nombreTarea = tareaIngresadaPorElUsuario : null
+                if(tareaIngresadaPorElUsuario != ""){
+                    ui.insertarAlerta(arrayTareas[indiceTareaActualizar].nombreTarea," actualizada satisfactoriamente")
+                    arrayTareas[indiceTareaActualizar].nombreTarea = tareaIngresadaPorElUsuario
+                }
                 document.getElementById('botonAniadir').innerHTML= "Añadir"
             }
         }
