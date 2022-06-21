@@ -24,17 +24,17 @@ const insertarTareaHTML= () =>{
     arrayTareas===null ? arrayTareas=[] : arrayTareas.forEach((elemento)=>{
         if(elemento.estado){
             contenedorTareasUI.innerHTML+=`
-            <div class="tarea mt-2 alert alert-warning">
+            <div class="tarea mt-2 alert alert-success">
                 <b>${elemento.nombreTarea}</b>
-                <i>| estado: ${elemento.estado}</i>
+                <i>| estado: terminado </i>
                 <button class="btn btn-danger" id="botonEliminar" type="submit">Eliminar</button>
             </div>
         `
         }else{
             contenedorTareasUI.innerHTML+=`
-            <div class="tarea mt-2 alert alert-warning">
+            <div class="tarea mt-2 alert alert-danger">
                 <b>${elemento.nombreTarea}</b>
-                <i>| estado: ${elemento.estado}</i>
+                <i>| estado: sin terminar</i>
                 <button class="btn btn-danger" id="botonEliminar" type="submit">Eliminar</button>
                 <button class="btn btn-danger" id="botonEditar" type="submit">Editar nombre</button>
                 <button class="btn btn-danger" id="botonMarcarCompletado" type="submit">Completar</button>
@@ -109,7 +109,7 @@ const seleccionarTarea = (tareaAComenzar) =>{
     document.getElementById('containerTareaEnCurso').innerHTML=''
 
     document.getElementById('containerTareaEnCurso').innerHTML += `
-        <div class="tareaEnCurso alert alert-success" id="tareaEnCurso"><b>${tareaAComenzar}</b></div>
+        <div class="tareaEnCurso alert alert-secondary" id="tareaEnCurso"><b>${tareaAComenzar}</b></div>
     `
     document.getElementById('containerTareaEnCurso').innerHTML+=`
         <button class="btn btn-primary" id='botonComenzar' type='submit'>Comenzar</button>
