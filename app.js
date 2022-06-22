@@ -104,7 +104,6 @@ class Interfaz{
     //guardo en una variable global el indice a actualizar y cambio el botón de añadir por uno de actualizar
     editarTarea(tareaAEditar){
         indiceTareaActualizar = this.recorrerArrayDeTareas(tareaAEditar)
-        console.log(indiceTareaActualizar)
         document.getElementById('botonAniadir').innerHTML ="Actualizar"
         document.getElementById('tareaInput').value=tareaAEditar
     }
@@ -196,7 +195,6 @@ class Interfaz{
                 duplicado = true
             }
         })
-        console.log(duplicado)
         return duplicado
     }
 
@@ -204,9 +202,11 @@ class Interfaz{
 
 //clase Reloj, tiene un constructor para crearla con minutos y segundos 
 class Reloj{
-    constructor(minutos,segundos){
+    constructor(minutos,segundos,tareaAComenzar){
         this.minutos=minutos
         this.segundos=segundos
+        this.tareaAComenzar=tareaAComenzar
+        this.campana = new Audio("/media/bell.mp3")
     }
 
     //esta funcion corresponde al cronometro, se le especifican los minutos y segundos
@@ -222,7 +222,12 @@ class Reloj{
             if(this.segundos===0 && this.minutos===0){
                 parar = true
                 clearInterval(intervalo)
-                this.marcarTareaCompletada(tarea)
+                ui.marcarTareaCompletada(this.tareaAComenzar)
+                this.campana.play()
+                document.getElementById('botonComenzar').hidden=true
+                document.getElementById('cronometro').hidden=true
+                document.getElementById('tareaEnCurso').hidden=true
+                ui.insertarAlerta(this.tareaAComenzar," finalizada")
             }
             if(document.getElementById('botonComenzar').innerHTML==='Comenzar' || document.getElementById('botonComenzar').innerHTML==='Reanudar'){
                 clearInterval(intervalo)
@@ -234,7 +239,6 @@ class Reloj{
                 }
                 this.segundos-=1
             }
-            console.log("Hola")
             ui.insertarCronometroHTML(this.minutos,this.segundos)
         },1000)
     }
@@ -259,7 +263,6 @@ formUI.addEventListener('submit',(e)=>{
     const botonClickeado = e.composedPath()[0][1].innerHTML
     if(arrayTareas.length!=0){
         const duplicado = ui.buscarDuplicado(tareaIngresadaPorElUsuario)
-        console.log(duplicado)
         if(!duplicado){
             if(botonClickeado==="Añadir"){
                 tareaIngresadaPorElUsuario != "" ? arrayTareas.push(new Tarea(tareaIngresadaPorElUsuario)) : null
