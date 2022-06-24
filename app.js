@@ -217,6 +217,7 @@ class Reloj{
     //y mientras parar sea false, se resta 1 segundo en cada paso del intervalo, si segundos es igual a 0 se resta
     //un minuto y se colocan 60 segundos
     cronometro(){
+        document.getElementById('tiempo').hidden=false
         let parar = false
         intervalo = setInterval(()=>{
             if(this.segundos===0 && this.minutos===0){
